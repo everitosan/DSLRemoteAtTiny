@@ -1,7 +1,8 @@
 /* Name: main.c
- * Author: <insert your name here>
- * Copyright: <insert your copyright message here>
- * License: <insert your license reference here>
+ * Author: evesan
+ * Email: everardo.ipn@gmail.com
+ * Copyright: CC 
+ * License: Atribución-NoComercial 4.0 Internacional
  */
 
 #include <avr/io.h>
@@ -21,29 +22,7 @@ int main(void)
 
   //BAUD RATE 9600, UBRR -> 6
   initUSART();
-  //sei();
 
-  //  for(;;){
-  //   signal = uart_getc();
-  //   if (signal == '1' ) { // FOCUS
-  //     PORTD = 0 << 0; //set down trigger
-  //     PORTD = 1 << 1;
-  //     PORTB = 0 << 2;     
-
-  //   } else if (signal == '2') {//TRIGGER
-  //     PORTD = 0 << 1; //set down focus
-  //     PORTD = 1 << 0;
-  //     PORTB = 0 << 2;
-           
-  //   } else if (signal == '0') { //OFF
-  //     PORTD = 0 << 0; //set down trigger
-  //     PORTD = 0 << 1; //set down focus
-  //     PORTB = 0 << 2;
-  //   } else {
-  //     PORTB = 1 << 2;    /* toggle the LED */   
-  //   }
-  //     _delay_ms(500);  /* max is 262.14 ms / F_CPU in MHz */
-  // }
   for(;;){
     signal = read_c();
     sendChar(signal);
