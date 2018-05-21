@@ -7,14 +7,11 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "usart.h"
+#include "communications/usart.h"
+#include "camera/camera.h"
 
 // Signal geths the data received by bluetooth
 char signal;
-
-void triggerOff(void);
-void takePhoto(void);
-void makeFocus(void);
 
 int main(void)
 {
@@ -43,18 +40,3 @@ int main(void)
   return 0;   /* never reached */
 }
 
-void triggerOff(void) {
-  DDRB &= (0 << DDB0); //set as input focus
-  DDRB &= (0 << DDB1); //set as input trigger
-  PORTB = 0b00000000;
-}
-
-void takePhoto(void) {
-  DDRB |= (1 << DDB0); //set as input pin0 of PORTB
-  PORTB = 0b11111110; //set ground pin0 of PORTB
-}
-
-void makeFocus(void) {
-  DDRB |= (1 << DDB1); //set as input pin1 of PORTB
-  PORTB = 0b11111101; //set ground pin1 of PORTB
-}
