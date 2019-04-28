@@ -27,10 +27,8 @@ int main(void)
     signal = read_c();
 
     if (signal == '1' ) { // FOCUS
-      // triggerOff();
       makeFocus();
     } else if (signal == '2') {//TRIGGER
-      // triggerOff();
       takePhoto();
     } else if (signal == '0') { //OFF
       triggerOff();
