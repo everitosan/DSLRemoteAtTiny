@@ -6,35 +6,54 @@
  */
 
 #include <avr/io.h>
-#include <util/delay.h>
+#include <avr/interrupt.h>
+
+#define F_OSC 1000000
+#define BAUD 9600
+
 #include "communications/usart.h"
 #include "camera/camera.h"
+#include "debug/bt.h"
 
-// Signal geths the data received by bluetooth
-char signal;
+#include <util/delay.h>
+
 
 int main(void)
 {
-  signal = '0';
-  triggerOff();
 
+  triggerOff();
   PORTB = 0b11111100; //se high state to interrupt connection with ground
 
+  init_debug_led();
   //BAUD RATE 9600, UBRR -> 6
   initUSART();
 
-  for(;;){
-    signal = read_c();
+  sei();
 
-    if (signal == '1' ) { // FOCUS
-      makeFocus();
-    } else if (signal == '2') {//TRIGGER
-      takePhoto();
-    } else if (signal == '0') { //OFF
-      triggerOff();
-    }
+  for(;;) {
   }
 
   return 0;   /* never reached */
+}
+
+ISR(USART_RX_vect)
+{
+  char signal = read_c();
+  if (signal == '1')
+  {
+    turn(3, 1);
+    takePhoto();
+  } else if (signal == '2')
+  {
+    makeFocus();
+    turn(5, 1);
+  } else 
+  {
+    triggerOff();
+    turn(3, 0);
+    turn(5, 0);
+  }
+
+  UDR = signal;
 }
 
